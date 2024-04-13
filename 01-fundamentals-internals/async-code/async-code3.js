@@ -34,8 +34,18 @@ Promise.all(
   })
 )
   .then((res) => {
-    console.log(res[0]);
-    console.log(res[1]);
-    console.log(res[2]);
+    console.log("promise: ", res[0]);
+    console.log("promise: ", res[1]);
+    console.log("promise: ", res[2]);
   })
   .catch(() => console.log("error"));
+
+const getData2 = async function () {
+  const arrayOfPromises = urls.map((url) => fetch(url));
+  for await (let req of arrayOfPromises) {
+    const data = await req.json();
+    console.log("for await: ", data);
+  }
+};
+
+getData2();

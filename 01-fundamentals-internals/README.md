@@ -237,6 +237,10 @@ function shouldExit() {
 }
 ```
 
+![js internals](/01-fundamentals-internals/assets/js_internals.gif)
+
+Microtasks (promises) will be executed before macrotasks (callbacks)
+
 ### Event emitter
 
 The event emitter is a class that is able to emit events. It is used by the nodejs api to emit events. This follows the observer pattern.
@@ -270,3 +274,40 @@ server.listen(8000, "localhost", () => {
   console.log("Server is listening on port 8000");
 });
 ```
+
+### Threads
+
+NodeJs is single threaded but it communicates via the libuv to assign tasks to a thread pool. So Node can't directly work with threads but it can create the event queue and assign libuv to take over via c++. This is why it is defined as "event-driven, non-blocking I/O model, making it efficient for handling concurrent operations."
+
+![node internals](/01-fundamentals-internals/assets/node_internals2.png)
+
+Concurrency
+(Single-core CPU)
+th1 | ...
+... | th2
+th1 | ...
+... | th2
+
+Simple example: 1 person is eating. He's got 1 mouth but 2 hands. He can grab multiple things to it but can eat one at a time.
+
+Concurrency + parallelism
+(Multi-Core CPU)
+
+th1 | th2
+... | th2
+th1 | ...
+th1 | th2
+
+Simple example: 2 personas are eating. They got 2 mouths and 4 hands. Theu can grab multiple things and eat them at the same.time.
+
+![cores and threads](/01-fundamentals-internals/assets/cores_and_threads.jpg)
+
+For example AMD Ryzen 7 7800X3D has 8 cores and 16 threads. CPU's have between 1-2 threads per core.
+
+AMD Ryzen Threadripper PRO 7995 has 96 cores with 192 threads.
+
+**Real life thread use.**
+
+It's a common misconception that browsers like Chrome operate on a one-tab-per-thread model. While it's true that each tab in Chrome typically runs its own process, these processes are not strictly bound to individual threads. Instead, each tab process manages multiple threads to handle various tasks such as rendering, JavaScript execution, networking, and more.
+
+In Chrome's multi-process architecture, each tab process typically consists of multiple threads responsible for different tasks. For instance, there may be separate threads for handling user input, rendering content, executing JavaScript, managing network requests, and so on. This multi-threaded approach allows Chrome to handle multiple tabs efficiently, even on systems with a limited number of CPU cores.
