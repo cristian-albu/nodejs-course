@@ -1,0 +1,19 @@
+{
+  "name": "04-file-io-planets-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parse": "^5.5.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
