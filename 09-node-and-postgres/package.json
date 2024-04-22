@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js",
+    "dev": "nodemon --env-file=.env src/server.js",
     "connectdb": "export PGPASSWORD=$1 && psql -U nodeapp2 -h 127.0.0.1 -p 5432 -d postgres",
-    "build-schema": "node db/createSchema.js"
+    "build-schema": "node --env-file=.env db/createSchema.js"
   },
   "keywords": [],
   "author": "",

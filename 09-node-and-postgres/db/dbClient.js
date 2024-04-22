@@ -1,9 +1,9 @@
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  user: "nodeapp2",
-  password: "password",
-  database: "node_and_postgres_db",
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASS,
+  database: process.env.DATABASE,
   host: "localhost",
   port: 5432,
   max: 20,
