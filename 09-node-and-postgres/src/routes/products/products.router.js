@@ -1,9 +1,9 @@
 const express = require("express");
 const {
-  httpGetProducts,
-  httpPostProduct,
-  httpGetProduct,
-  httpDeleteProduct,
+    httpGetProducts,
+    httpPostProduct,
+    httpGetProduct,
+    httpDeleteProduct,
 } = require("./products.controller");
 
 const productsRouter = express.Router();
