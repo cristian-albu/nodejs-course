@@ -27,7 +27,7 @@ const orders = `--sql
 const order_details = `--sql
     CREATE TABLE order_details(
         order_detail_id SERIAL PRIMARY KEY,
-        order_id INT REFERENCES orders(order_id),
+        order_id INT REFERENCES orders(order_id) ON DELETE CASCADE,
         product_id INT REFERENCES products(product_id),
         quantity INT NOT NULL,
         CONSTRAINT fk_order_product UNIQUE(order_id, product_id)
@@ -35,38 +35,38 @@ const order_details = `--sql
 `;
 
 async function createTable(client, query) {
-  try {
-    const result = await client.query(query);
-    return result;
-  } catch (error) {
-    console.error(
-      `Error creating table:`,
-      query.split("TABLE ")[1].split("(")[0]
-    );
-    throw error;
-  }
+    try {
+        const result = await client.query(query);
+        return result;
+    } catch (error) {
+        console.error(
+            `Error creating table:`,
+            query.split("TABLE ")[1].split("(")[0]
+        );
+        throw error;
+    }
 }
 
 async function buildSchema() {
-  const client = await pool.connect();
+    const client = await pool.connect();
 
-  try {
-    await client.query("BEGIN");
-    await Promise.all([
-      createTable(client, users),
-      createTable(client, products),
-      createTable(client, orders),
-      createTable(client, order_details),
-    ]);
+    try {
+        await client.query("BEGIN");
+        await Promise.all([
+            createTable(client, users),
+            createTable(client, products),
+            createTable(client, orders),
+            createTable(client, order_details),
+        ]);
 
-    await client.query("COMMIT");
-    console.log("Schema built successfully");
-  } catch (error) {
-    await client.query("ROLLBACK");
-    console.error("Schema build aborted.");
-  } finally {
-    client.release();
-  }
+        await client.query("COMMIT");
+        console.log("Schema built successfully");
+    } catch (error) {
+        await client.query("ROLLBACK");
+        console.error("Schema build aborted.");
+    } finally {
+        client.release();
+    }
 }
 
 buildSchema();
