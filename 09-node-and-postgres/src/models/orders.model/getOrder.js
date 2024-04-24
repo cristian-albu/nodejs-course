@@ -11,7 +11,15 @@ async function getOrder(id) {
             [id]
         );
 
-        return result.rows[0];
+        const order_details = await client.query(
+            `SELECT * FROM order_details WHERE order_id=$1;`,
+            [id]
+        );
+
+        return {
+            order: result.rows[0],
+            order_details: order_details.rows,
+        };
     } catch (error) {
         throw error;
     } finally {
